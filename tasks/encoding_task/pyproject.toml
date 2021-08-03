@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "airflow-task-server-encoding"
+version = "0.1.0"
+description = "Airflow Task Server Encoding Task"
+authors = ["Charlene Leong <charleneleong84@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+vectorhub = { version= "^1.2.2", extras=["encoders-image-tfhub"] }
+click = "^7.0"
+click_log = "^0.3.2"
+vecdb = "^0.2.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.5.0"
+black = "18.9b0"
+
+[tool.black]
+line-length = 88
+py38 = true
+include = '\.pyi?$'
+exclude = '\.git/|\.mypy_cache/|\.tox/|\.venv/|_build/|buck-out/|build/|dist/'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

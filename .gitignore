@@ -1,0 +1,22 @@
+# Vscode
+.venv
+.vscode
+*.code-workspace
+
+# Python
+*.egg-info
+.cache
+.coverage
+.tox
+__pycache__
+.pytest_cache
+*.swp
+
+dist/
+build/
+
+
+# Mac
+.DS_Store
+
+
