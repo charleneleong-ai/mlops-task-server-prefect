@@ -10,6 +10,7 @@ vectorai = "^0.3.0"
 vectorhub = "^1.2.2"
 pandas = "^1.3.0"
 peodd = "^0.2.0"
+prefect = "^0.15.3"
 
 
 [tool.poetry.dev-dependencies]
