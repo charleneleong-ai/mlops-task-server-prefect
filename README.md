@@ -35,6 +35,7 @@ Users and Agents only need access to the Apollo endpoint, all other services may
 
 
 
+
 ## Getting started
 
 ```zsh
@@ -47,3 +48,34 @@ lint                Lint using flake8
 update              Update dependencies in pyproject.toml 
 
 ```
+
+
+# Getting Started with Prefect Core
+
+## Agent Types
+
+Prefect supports several different agent types for deploying on different platforms.
+
+- Local: The [Local Agent](https://docs.prefect.io/orchestration/agents/local.html) executes flow runs as local processes.
+
+- Docker: The [Docker Agent](https://docs.prefect.io/orchestration/agents/docker.html) executes flow runs in docker containers. Choose this one to 
+
+- Kubernetes: The [Kubernetes Agent](https://docs.prefect.io/orchestration/agents/kubernetes.html) executes flow runs as [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
+
+- AWS ECS: The [ECS Agent](https://docs.prefect.io/orchestration/agents/ecs.html) executes flow runs as AWS [ECS tasks](https://aws.amazon.com/ecs/) (on either ECS or Fargate).
+
+See their respective documentation for more information on each type.
+
+
+
+This will start Prefect Core with a Docker agent on `http://localhost:8080/default`.
+
+```
+❯ prefect server start  
+❯ prefect agent docker start --show-flow-logs
+❯ prefect create project "test-project"
+```
+
+References:
+
+- [Machine Learning Workflow Orchestration with Prefect](https://docs.google.com/presentation/d/1nd-jIBwlVTzuC4CILvDcYYeuL1c_yR9EhkO2JwKJlAo/edit#slide=id.gdc16443dd7_0_224)

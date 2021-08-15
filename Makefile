@@ -18,9 +18,8 @@ install:
 ## Update dependencies in pyproject.toml 
 update:
 	poetry lock --no-update
-	poetry export -f requirements.txt --output requirements.txt 
-	poetry export -f requirements.txt --output airflow-docker/requirements.txt
-	peodd -o airflow-docker/requirements-dev.txt
+	poetry export -f requirements.txt --output requirements.txt
+	peodd -o requirements-dev.txt
 
 ## Delete all compiled Python files
 clean:
@@ -43,10 +42,6 @@ docker-cleanup:
 	docker kill $(docker ps -q) 
 	docker rmi $(docker images -q) -f    
 	docker volume rm $(docker volume ls -q)
-
-## Building DockerOperator test image
-docker-build-dockeroperator:
-	cd airflow-docker && docker build -f dags/docker_jobs/Dockerfile -t docker_image_task .           
 
 ## Building Encoding Task images
 docker-build-encoding:

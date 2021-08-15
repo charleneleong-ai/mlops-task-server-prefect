@@ -1,8 +1,2 @@
-# https://download.pytorch.org/whl/cpu/torch-1.7.1%2Bcpu-cp38-cp38-linux_x86_64.whl
-# torch==1.5.0+cpu
-# -f https://download.pytorch.org/whl/torch_stable.html
-click
-click_log
-# vectorai==0.3.0
-vecdb
-vectorhub[encoders-image-tfhub]
+VecDB==0.5.8
+vectorhub==1.2.3

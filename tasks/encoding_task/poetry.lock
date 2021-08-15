@@ -130,6 +130,14 @@ python-versions = "*"
 six = "*"
 
 [[package]]
+name = "document-utils"
+version = "1.2.0"
+description = "No description"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "gast"
 version = "0.2.2"
 description = "Python AST that abstracts the underlying Python version"
@@ -721,7 +729,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
 name = "vecdb"
-version = "0.2.2"
+version = "0.5.8"
 description = "No description"
 category = "main"
 optional = false
@@ -729,47 +737,49 @@ python-versions = "*"
 
 [[package]]
 name = "vectorhub"
-version = "1.2.3"
+version = "1.4.0"
 description = "One liner to encode data into vectors with state-of-the-art models using tensorflow, pytorch and other open source libraries. Word2Vec, Image2Vec, BERT, etc"
 category = "main"
 optional = false
 python-versions = ">=3"
 
 [package.dependencies]
+document-utils = "*"
 imageio = {version = "*", optional = true, markers = "extra == \"encoders-image-tfhub\""}
 numpy = "*"
 PyYAML = "*"
 requests = "*"
 scikit-image = {version = "*", optional = true, markers = "extra == \"encoders-image-tfhub\""}
 tensorflow = {version = "*", optional = true, markers = "extra == \"encoders-image-tfhub\""}
-tensorflow_hub = {version = "*", optional = true, markers = "extra == \"encoders-image-tfhub\""}
+tensorflow-hub = {version = "*", optional = true, markers = "extra == \"encoders-image-tfhub\""}
 
 [package.extras]
-Pillow = ["pillow"]
-PyYAML = ["pyyaml"]
-all = ["requests", "sentence-transformers", "librosa", "soundfile", "numpy", "mtcnn", "sphinx-rtd-theme (>=0.5.0)", "clip-by-openai", "imageio", "tensorflow", "tensorflow-text", "fairseq", "bert-for-tf2", "moviepy", "fastai (==2.1.8)", "pillow", "appdirs", "tensorflow-hub", "pyyaml", "scikit-image", "tf-models-official", "opencv-python", "transformers", "torch (>=1.6.0)", "pytest"]
+pillow = ["pillow"]
+pyyaml = ["pyyaml"]
+all = ["requests", "mtcnn", "pillow", "soundfile", "tf-models-official", "fastai (==2.1.8)", "opencv-python", "document-utils", "torch (>=1.6.0)", "pytest", "tensorflow", "tensorflow-hub", "sphinx-rtd-theme (>=0.5.0)", "appdirs", "librosa", "numpy", "fairseq", "bert-for-tf2", "moviepy", "transformers", "tensorflow-text", "imageio", "pyyaml", "clip-by-openai", "scikit-image", "sentence-transformers"]
 appdirs = ["appdirs"]
 audio-encoder = ["librosa"]
 bert-for-tf2 = ["bert-for-tf2"]
-clip = ["pillow", "scikit-image", "opencv-python", "clip-by-openai", "imageio"]
+clip = ["pillow", "imageio", "clip-by-openai", "scikit-image", "opencv-python"]
 clip-by-openai = ["clip-by-openai"]
-core = ["requests", "numpy", "pyyaml"]
-encoders-audio-pytorch = ["fairseq", "torch (>=1.6.0)"]
+core = ["document-utils", "requests", "pyyaml", "numpy"]
+document-utils = ["document-utils"]
+encoders-audio-pytorch = ["torch (>=1.6.0)", "fairseq"]
 encoders-audio-tfhub = ["librosa", "tensorflow-hub", "soundfile", "tensorflow"]
-encoders-code-transformers = ["transformers", "torch (>=1.6.0)"]
-encoders-image = ["scikit-image", "imageio"]
+encoders-code-transformers = ["torch (>=1.6.0)", "transformers"]
+encoders-image = ["imageio", "scikit-image"]
 encoders-image-cv2 = ["opencv-python"]
 encoders-image-fastai = ["fastai (==2.1.8)", "torch (>=1.6.0)"]
-encoders-image-tf-face-detection = ["pillow", "tensorflow", "mtcnn", "opencv-python", "appdirs"]
-encoders-image-tfhub = ["tensorflow-hub", "tensorflow", "scikit-image", "imageio"]
+encoders-image-tf-face-detection = ["pillow", "mtcnn", "tensorflow", "appdirs", "opencv-python"]
+encoders-image-tfhub = ["tensorflow-hub", "imageio", "tensorflow", "scikit-image"]
 encoders-text-sentence-transformers = ["torch (>=1.6.0)", "sentence-transformers"]
 encoders-text-tf-transformers = ["tensorflow", "transformers"]
-encoders-text-tfhub = ["tensorflow-text", "tensorflow", "tf-models-official", "bert-for-tf2", "tensorflow-hub"]
-encoders-text-tfhub-windows = ["tf-models-official", "tensorflow-hub", "tensorflow", "bert-for-tf2"]
-encoders-text-torch-transformers = ["transformers", "torch (>=1.6.0)"]
+encoders-text-tfhub = ["bert-for-tf2", "tensorflow", "tf-models-official", "tensorflow-text", "tensorflow-hub"]
+encoders-text-tfhub-windows = ["tensorflow-hub", "tensorflow", "bert-for-tf2", "tf-models-official"]
+encoders-text-torch-transformers = ["torch (>=1.6.0)", "transformers"]
 encoders-video = ["opencv-python", "moviepy"]
 fairseq = ["fairseq"]
-"fastai==2.1.8" = ["fastai (==2.1.8)"]
+"fastai_2.1.8" = ["fastai (==2.1.8)"]
 imageio = ["imageio"]
 librosa = ["librosa"]
 moviepy = ["moviepy"]
@@ -781,13 +791,13 @@ requests = ["requests"]
 scikit-image = ["scikit-image"]
 sentence-transformers = ["sentence-transformers"]
 soundfile = ["soundfile"]
-"sphinx-rtd-theme>=0.5.0" = ["sphinx-rtd-theme (>=0.5.0)"]
+"sphinx-rtd-theme_0.5.0" = ["sphinx-rtd-theme (>=0.5.0)"]
 tensorflow = ["tensorflow"]
 tensorflow_hub = ["tensorflow-hub"]
 tensorflow_text = ["tensorflow-text"]
 test = ["pytest", "sphinx-rtd-theme (>=0.5.0)"]
 tf-models-official = ["tf-models-official"]
-"torch>=1.6.0" = ["torch (>=1.6.0)"]
+"torch_1.6.0" = ["torch (>=1.6.0)"]
 transformers = ["transformers"]
 
 [[package]]
@@ -820,7 +830,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "5917d2bc3cb362ed20a4dd9219666ed4d1633464cf5c27fa772184175c9ba795"
+content-hash = "05d4bafee21be8bfab09f91a3eeac51d72679e2377108ee6cd83fb19cf972b3e"
 
 [metadata.files]
 absl-py = [
@@ -874,6 +884,9 @@ colorama = [
 cycler = [
     {file = "cycler-0.10.0-py2.py3-none-any.whl", hash = "sha256:1d8a5ae1ff6c5cf9b93e8811e581232ad8920aeec647c37316ceac982b08cb2d"},
     {file = "cycler-0.10.0.tar.gz", hash = "sha256:cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"},
+]
+document-utils = [
+    {file = "document-utils-1.2.0.tar.gz", hash = "sha256:28d775d4840b116a0acda43487faba191ee5e2eafd953839e254760e53980adf"},
 ]
 gast = [
     {file = "gast-0.2.2.tar.gz", hash = "sha256:fe939df4583692f0512161ec1c880e0a10e71e6a232da045ab8edd3756fbadf0"},
@@ -1385,11 +1398,12 @@ urllib3 = [
     {file = "urllib3-1.26.6.tar.gz", hash = "sha256:f57b4c16c62fa2760b7e3d97c35b255512fb6b59a259730f36ba32ce9f8e342f"},
 ]
 vecdb = [
-    {file = "VecDB-0.2.2-py3-none-any.whl", hash = "sha256:60dc7b4cf26eefacda79b13af473e07cfd6cd3ada8f2cb486c02ead9ca466d76"},
-    {file = "VecDB-0.2.2.tar.gz", hash = "sha256:cd400f6b395fc01c7e2d89c468182854eff51c70d619f256d98106d38131d4c0"},
+    {file = "VecDB-0.5.8-py3-none-any.whl", hash = "sha256:8bb9e5aec2ed08efd254fad3225fae79194dff8f97c89c7805ca05f58607ea58"},
+    {file = "VecDB-0.5.8.tar.gz", hash = "sha256:1caa5c39826e367f22d5dab580d10ad108a056e7917927e2aa9a12e03047500b"},
 ]
 vectorhub = [
-    {file = "vectorhub-1.2.3.tar.gz", hash = "sha256:5a9dcad304213023315753f5dec11f5d8f0b3a514e55489882519f0cca77cb4e"},
+    {file = "vectorhub-1.4.0-py3-none-any.whl", hash = "sha256:18117c86ed5245dba193f4ced59d281863cdc965d1ef270b2ae7af4eb74807f8"},
+    {file = "vectorhub-1.4.0.tar.gz", hash = "sha256:63e78cf71caee6238ca4bdc5e35eacc6ea40d235d677428ac52230b693a37a10"},
 ]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},

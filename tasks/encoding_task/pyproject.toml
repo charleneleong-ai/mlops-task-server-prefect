@@ -9,7 +9,7 @@ python = "^3.8"
 vectorhub = { version= "^1.2.2", extras=["encoders-image-tfhub"] }
 click = "^7.0"
 click_log = "^0.3.2"
-vecdb = "^0.2.2"
+VecDB = "^0.5.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.5.0"
