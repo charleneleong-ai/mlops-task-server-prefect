@@ -3,7 +3,7 @@
 set -a
 set -euox pipefail
 
-TFSTATE_RG='prefect-rg'
+TFSTATE_RG='prefect-tfstate'
 TFSTATE_REGION='australiaeast'
 
 az group create \

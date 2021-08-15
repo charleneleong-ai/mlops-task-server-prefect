@@ -1,27 +1,30 @@
 
-variable k8s_rg_name {
-    default = "astronomer-k8s-rg"
+
+variable prefix {
+  description = "Project Prefix"
 }
 
 variable location {
+  description = "Azure location"
     default = "Australia East"
 }
 
-# variable "parent_domain" {
-#   description = "pre-existing parent domain in which to create the NS record for the child domain"
-#   type        = string
-# }
+variable rg_name {
+  description = "Resource Group Name"
+}
 
-# variable "child_domain_prefix" {
-#   description = "child domain prefix (<child_domain_prefix>.<parent_domain>)"
-#   type = string
-# }
-# variable dns_zone_name {
-#     default = "astronomer.relevanceai.com"
-#     type = string
-# }
 
-# variable private_dns_zone_name {
-#     default = "test.astronomer.relevanceai.com"
-#     type = string
-# }
+variable environment {
+  type = string
+  description = "Environment (dev/stg/prd)"
+  validation {
+    condition     = contains(["dev", "stg", "prd"], var.environment)
+    error_message = "The environmenet value must be a valid environment - dev, stg, prd."
+  }
+}
+
+# Meta Data
+variable "tags" {
+  description = "Tags to be applied to resources (inclusive)"
+  type        = map(string)
+}

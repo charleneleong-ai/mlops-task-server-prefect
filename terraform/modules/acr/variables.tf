@@ -1,6 +1,5 @@
 
 
-
 variable prefix {
   description = "Project Prefix"
 }
@@ -23,13 +22,11 @@ variable location {
     default = "Australia East"
 }
 
-# variable dns_zone_id {
-#     type = string
-# }
-
-
 # Meta Data
 variable "tags" {
   description = "Tags to be applied to resources (inclusive)"
   type        = map(string)
 }
+
+
+

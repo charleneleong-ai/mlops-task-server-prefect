@@ -1,10 +1,18 @@
-# resource "azurerm_resource_group" "k8s" {
-#     name     = var.resource_group_name
-#     location = var.location
-# }
+
+locals {
+  k8s_rg_name = var.rg.name
+  ssh_public_key = "~/.ssh/id_rsa.pub"
+  agent_count = 3
+  log_analytics_name = "${var.prefix}-${var.environment}-log-analytics-${random_id.log_analytics_workspace_name_suffix.dec}"
+  log_analytics_workspace_sku = "PerGB2018"
+  container_insights_name ="${var.prefix}-${var.environment}-ContainerInsights"
+  k8s_cluster_name = "${var.prefix}-${var.environment}-k8s"
+}
+
+
 
 data "azurerm_resource_group" "k8srg" {
-    name = var.k8s_rg.name
+    name = local.k8s_rg_name
 }
 resource "random_id" "log_analytics_workspace_name_suffix" {
     byte_length = 8
@@ -12,14 +20,14 @@ resource "random_id" "log_analytics_workspace_name_suffix" {
 
 resource "azurerm_log_analytics_workspace" "test" {
     # The WorkSpace name has to be unique across the whole of azure, not just the current subscription/tenant.
-    name                = "${var.log_analytics_workspace_name}-${random_id.log_analytics_workspace_name_suffix.dec}"
-    location            = var.log_analytics_workspace_location
+    name                = local.log_analytics_name
+    location            = data.azurerm_resource_group.k8srg.location
     resource_group_name = data.azurerm_resource_group.k8srg.name
-    sku                 = var.log_analytics_workspace_sku
+    sku                 = local.log_analytics_workspace_sku
 }
 
 resource "azurerm_log_analytics_solution" "test" {
-    solution_name         = "ContainerInsights"
+    solution_name         = local.container_insights_name
     location              = azurerm_log_analytics_workspace.test.location
     resource_group_name   = data.azurerm_resource_group.k8srg.name
     workspace_resource_id = azurerm_log_analytics_workspace.test.id
@@ -49,10 +57,10 @@ resource "azurerm_log_analytics_solution" "test" {
 
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-    name                = var.cluster_name
+    name                = local.k8s_cluster_name
     location            = data.azurerm_resource_group.k8srg.location
     resource_group_name = data.azurerm_resource_group.k8srg.name
-    dns_prefix          = var.dns_prefix
+    dns_prefix          = local.k8s_cluster_name
 
     # private_cluster_enabled = true
     # private_dns_zone_id     = var.private_dns_zone_id
@@ -67,13 +75,13 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         admin_username = "ubuntu"
 
         ssh_key {
-            key_data = file(var.ssh_public_key)
+            key_data = file(local.ssh_public_key)
         }
     }
 
     default_node_pool {
         name            = "agentpool"
-        node_count      = var.agent_count
+        node_count      = local.agent_count
         vm_size         = "Standard_D2_v3"
         type            = "VirtualMachineScaleSets"
     }

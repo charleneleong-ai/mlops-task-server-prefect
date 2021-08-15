@@ -17,15 +17,6 @@ provider "azurerm" {
     # subscription_id = data.azurerm_subscription.current.subscription_id
 }
 
-# terraform {
-#     backend "azurerm" {
-#         resource_group_name  = "charlene"
-#         storage_account_name = "tfstate29688"
-#         container_name       = "terraform"
-#         key                  = "terraform.tfstate"
-#     }
-# }
-
 terraform {
     backend "azurerm" {
         # resource_group_name  = "charlene"
@@ -38,14 +29,14 @@ terraform {
 
 locals {
   # vnet_name = "k8s-vnet"
-  vnet_name = "example-vn"
-  tags = { "environment" = "test"
-          "location"    = "australiaeast" }
+  # vnet_name = "example-vn"
+  tags = var.tags
+
 }
 
 
-resource "azurerm_resource_group" "k8srg" {
-    name     = var.k8s_rg_name
+resource "azurerm_resource_group" "prefectrg" {
+    name     = var.rg_name
     location = var.location
 }
 
@@ -62,17 +53,6 @@ data "azurerm_subscription" "current" {
 #   address_space       = ["10.0.0.0/16"]
 # }
 
-# ## External psql db 
-# module "psql" {
-#   source = "./modules/psql"
-#   k8s_rg_name = azurerm_resource_group.k8srg.name
-#   location = var.location
-#   vnet_name = azurerm_virtual_network.vnet.name
-#   vnet_id = azurerm_virtual_network.vnet.id
-#   tags=local.tags
-# }
-
-
 # module "dns" {
 #   source = "./modules/dns"
 
@@ -87,10 +67,28 @@ data "azurerm_subscription" "current" {
 #   tags=local.tags
 # }
 
+module "acr" {
+  source = "./modules/acr"
+  prefix = var.prefix
+  environment = var.environment
+  rg = azurerm_resource_group.prefectrg
+  location = azurerm_resource_group.prefectrg.location
+  tags=local.tags
+    depends_on = [
+    azurerm_resource_group.prefectrg
+  ]
+}
+
+
 module "k8s" {
   source = "./modules/k8s"
-  k8s_rg = azurerm_resource_group.k8srg
+  prefix = var.prefix
+  environment = var.environment
+  rg = azurerm_resource_group.prefectrg
   # dns_zone_id=module.dns.subscription_id
-  location = var.location
+  location = azurerm_resource_group.prefectrg.location
   tags=local.tags
+  depends_on = [
+    azurerm_resource_group.prefectrg
+  ]
 }

@@ -132,14 +132,14 @@ Export config and see nodes.
 
 ```zsh
 ❯ echo "$(terraform output kube_config | sed -e 's/EOT//g' -e  's/<<//g')" > ../manifests/aks.yaml
-❯ export KUBECONFIG=./manifests/aks.yaml
+❯ export KUBECONFIG=$PWD/manifests/aks.yaml
 ❯ kubectl get nodes
 ```
 
 ### 1.6 Auth into new cluster
 
 ```zsh
-❯ az aks get-credentials --resource-group <rg_name> --name k8stest
+❯ az aks get-credentials --resource-group prefect-rg --name k8stest
 ```
 
 ## Tools

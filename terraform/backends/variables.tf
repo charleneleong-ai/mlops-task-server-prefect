@@ -22,6 +22,6 @@ variable "environment" {
 # azure region
 variable "location" {
   type        = string
-  description = "Azure region where the resource group will be created"
+  description = "Azure location where the resource group will be created"
   default     = "australiaeast"
 }
