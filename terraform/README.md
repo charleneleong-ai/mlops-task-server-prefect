@@ -177,17 +177,19 @@ export PREFECT_CLOUD_AKS_USER_API_KEY="xxx"`
 
 
 
-### 2.2  To run on your local machine 
+### 2.2  To run on AKS on Prefect Cloud
 
 
 
 
 ```zsh
+## Source creds
 ❯ source creds.env
 
-
+## Login into ACR
 ❯ docker login $ACR_REGISTRY --username $ACR_ADMIN_USER --password $ACR_ADMIN_PASS           
 
+## Create image pull regcred for cluster
 ❯ kubectl create secret docker-registry regcred --docker-server=$ACR_REGISTRY  --docker-username=$ACR_ADMIN_USER  --docker-password=$ACR_ADMIN_PASS  
 --docker-email=$ACR_EMAIL  
 
@@ -195,7 +197,22 @@ export PREFECT_CLOUD_AKS_USER_API_KEY="xxx"`
 
 ❯ kubectl get secret regcred --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode
 
-❯ prefect agent kubernetes install --rbac --namespace default --image-pull-secrets regcred -t $PREFECT_CLOUD_AKS_USER_API_KEY | kubectl apply -f - 
+## Launch K8s agent inside cluster with RBAC role
+## Use API Key with service account to register agent with Prefect cloud
+❯ prefect agent kubernetes install --rbac --namespace default --image-pull-secrets regcred -t $PREFECT_CLOUD_AKS_USER_API_KEY > manifests/prefect-k8s-agent.yaml
+
+## Apply K8s agnet manifest to  deploy agent to AKS
+❯  kubectl apply -f manifests/prefect-k8s-agent.yaml
+
+## See agent deployment running in cluster
+❯  kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+prefect-agent-c55d8594-lgql4   1/1     Running   0          10m
+
+❯  kubectl get deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+prefect-agent   1/1     1            1           55m
+
 
 ```
 
