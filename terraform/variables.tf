@@ -22,9 +22,3 @@ variable environment {
     error_message = "The environmenet value must be a valid environment - dev, stg, prd."
   }
 }
-
-# Meta Data
-variable "tags" {
-  description = "Tags to be applied to resources (inclusive)"
-  type        = map(string)
-}

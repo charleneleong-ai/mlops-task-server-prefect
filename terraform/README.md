@@ -131,7 +131,7 @@ Take note of the backend vars and configure in [`tfvars/backend.tfvars`](./terra
 Export config and see nodes.
 
 ```zsh
-❯ echo "$(terraform output kube_config | sed -e 's/EOT//g' -e  's/<<//g')" > ../manifests/aks.yaml
+❯ echo "$(terraform output kube_config | sed -e 's/EOT//g' -e  's/<<//g')" > $PWD/manifests/aks.yaml
 ❯ export KUBECONFIG=$PWD/manifests/aks.yaml
 ❯ kubectl get nodes
 ```
@@ -139,7 +139,64 @@ Export config and see nodes.
 ### 1.6 Auth into new cluster
 
 ```zsh
-❯ az aks get-credentials --resource-group prefect-rg --name k8stest
+❯ az aks get-credentials --resource-group prefect-dev-rg --name prefect-dev-k8s
+```
+
+
+## Step 2: Configure Prefect Cloud and ACR for Kubernetes Deployment
+
+
+### 2.1 Create a API key in Prefect Cloud - 
+
+```zsh
+❯ prefect backend cloud  
+❯ prefect auth login --key <PREFECT_CLOUD_API_KEY>   
+❯ prefect create project "AKS"
+```
+
+
+
+### 2.2 Create and configure `creds.env` 
+
+
+ACR creds are from ACR resource created previously.
+Create service account in Prefect cloud console nad provision API key - PREFECT_CLOUD_AKS_USER_API_KEY
+
+
+```
+export ACR_REGISTRY="prefectdevacr.azurecr.io"
+export ACR_ADMIN_USER="xxx"
+export ACR_ADMIN_PASS="xxx"
+
+export PREFECT_CLOUD_API_KEY="xxx" 
+export PREFECT_CLOUD_AKS_USER_API_KEY="xxx"`
+
+
+```
+
+
+
+
+### 2.2  To run on your local machine 
+
+
+
+
+```zsh
+❯ source creds.env
+
+
+❯ docker login $ACR_REGISTRY --username $ACR_ADMIN_USER --password $ACR_ADMIN_PASS           
+
+❯ kubectl create secret docker-registry regcred --docker-server=$ACR_REGISTRY  --docker-username=$ACR_ADMIN_USER  --docker-password=$ACR_ADMIN_PASS  
+--docker-email=$ACR_EMAIL  
+
+❯ kubectl get secret regcred
+
+❯ kubectl get secret regcred --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode
+
+❯ prefect agent kubernetes install --rbac --namespace default --image-pull-secrets regcred -t $PREFECT_CLOUD_AKS_USER_API_KEY | kubectl apply -f - 
+
 ```
 
 ## Tools

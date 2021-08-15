@@ -26,7 +26,7 @@ def see_output(out):
 with Flow("docker-flow",
     storage=Docker(python_dependencies=["vectorhub==1.2.3", "VecDB==0.5.8"]) 
     as flow:
-    enc
+    
     # container_id = create()
     # s = start(container_id=container_id)
     # w = wait(container_id=container_id)

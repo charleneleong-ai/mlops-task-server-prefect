@@ -30,8 +30,11 @@ terraform {
 locals {
   # vnet_name = "k8s-vnet"
   # vnet_name = "example-vn"
-  tags = var.tags
-
+  tags = { 
+    "project" = var.prefix
+    "environment" = var.environment
+    "location"    = var.location
+  }
 }
 
 
@@ -74,7 +77,8 @@ module "acr" {
   rg = azurerm_resource_group.prefectrg
   location = azurerm_resource_group.prefectrg.location
   tags=local.tags
-    depends_on = [
+
+  depends_on = [
     azurerm_resource_group.prefectrg
   ]
 }
@@ -88,6 +92,7 @@ module "k8s" {
   # dns_zone_id=module.dns.subscription_id
   location = azurerm_resource_group.prefectrg.location
   tags=local.tags
+
   depends_on = [
     azurerm_resource_group.prefectrg
   ]

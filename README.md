@@ -79,3 +79,14 @@ This will start Prefect Core with a Docker agent on `http://localhost:8080/defau
 References:
 
 - [Machine Learning Workflow Orchestration with Prefect](https://docs.google.com/presentation/d/1nd-jIBwlVTzuC4CILvDcYYeuL1c_yR9EhkO2JwKJlAo/edit#slide=id.gdc16443dd7_0_224)
+
+
+# Getting Started with KubernetesFlow on AKS with Prefect Cloud
+
+Create a API key in Prefect Cloud - 
+
+```
+❯ prefect backend cloud  
+❯ prefect auth login --key $PREFECT_CLOUD_API_KEY   
+❯ prefect create project "test-project"
+```

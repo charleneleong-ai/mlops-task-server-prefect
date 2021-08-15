@@ -5,7 +5,7 @@ locals {
   agent_count = 3
   log_analytics_name = "${var.prefix}-${var.environment}-log-analytics-${random_id.log_analytics_workspace_name_suffix.dec}"
   log_analytics_workspace_sku = "PerGB2018"
-  container_insights_name ="${var.prefix}-${var.environment}-ContainerInsights"
+  container_insights_name = "ContainerInsights"
   k8s_cluster_name = "${var.prefix}-${var.environment}-k8s"
 }
 
